@@ -1,0 +1,23 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: AWS Configure
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_access_key }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_secret_key }}
+          aws configure set default.region ${{ secrets.AWS_region }}
+
+      - name: Deploy to S3
+        run: aws s3 sync ./.github/workflows/deploy.yml s3://githubrepo/nebula/
