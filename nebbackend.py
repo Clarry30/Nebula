@@ -81,7 +81,7 @@ def setup_database():
 # Health check endpoint
 @app.route('/api/health-check', methods=['GET'])
 def health_check():
-    return 'Service is healthy'
+    return 'Service is healthy', 200
 
 # API endpoint to get all students
 @app.route('/api/students', methods=['GET'])
@@ -168,11 +168,11 @@ def test_db_connection():
     if request.method == 'GET':
         try:
             result = db.session.execute(text('SELECT 1'))
-            return 'Database connection is working',200
+            return 'Database connection is working', 200
         except Exception as e:
             return f'Database connection error: {str(e)}'
     elif request.method == 'POST':
-        return 'Database connection is working and Received a POST request'
+        return 'Database connection is working and Received a POST request', 200
     else:
         return 'Method not allowed'
 
